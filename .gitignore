@@ -1,0 +1,4 @@
+bin
+gen
+#required but not included in the repository
+libs/android-support-v4.jar
