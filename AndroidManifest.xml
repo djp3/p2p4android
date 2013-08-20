@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.uci.ics.luci.p2p4java.androidlibrary"
+    package="edu.uci.ics.luci.p2p4java.p2p4android.lib"
     android:versionCode="1"
     android:versionName="1.0" >
 

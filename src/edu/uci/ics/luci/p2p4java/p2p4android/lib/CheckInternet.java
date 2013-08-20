@@ -1,4 +1,4 @@
-package edu.uci.ics.luci.p2p4java.p2pservice;
+package edu.uci.ics.luci.p2p4java.p2p4android.lib;
 
 import java.io.BufferedReader;
 import java.io.IOException;
