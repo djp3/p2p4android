@@ -1,21 +1,28 @@
 package edu.uci.ics.luci.p2p4java.p2p4android.lib;
 
+import java.io.IOException;
 import java.util.Timer;
 
 import android.os.AsyncTask;
 import android.os.Message;
 import android.util.Log;
 import edu.uci.ics.luci.p2p4java.peergroup.PeerGroup;
+import edu.uci.ics.luci.p2p4java.pipe.OutputPipe;
+import edu.uci.ics.luci.p2p4java.pipe.OutputPipeEvent;
+import edu.uci.ics.luci.p2p4java.pipe.OutputPipeListener;
 import edu.uci.ics.luci.p2p4java.pipe.PipeService;
 import edu.uci.ics.luci.p2p4java.platform.NetworkManager;
 import edu.uci.ics.luci.p2p4java.protocol.PipeAdvertisement;
 import edu.uci.ics.luci.p2p4java.util.luci.P2P4Java;
 
-public class P2PService extends AbstractService{
+public class P2PService extends AbstractService implements OutputPipeListener{
 	
 	/* sent to clients when the P2P service changes state */
 	public static final int MSG_FROM_SET_STATUS_VALUE = MSG_FROM_HEARTBEAT +1;
 	private P2PStatus p2pStatus = P2PStatus.OFF;
+	
+	/* sent to the Service when data should be sent out on the wire */
+	public static final int MSG_TO_SEND_DATA = MSG_TO_UNREGISTER_CLIENT + 1;
 	
 	/* last task in the chain of asynchronous tasks being run */
     private AsyncTask<Void, String, Exception> lastTask = null;
@@ -26,6 +33,7 @@ public class P2PService extends AbstractService{
 	private PipeService pipeService = null;
     private PipeAdvertisement pipeAdv = null;
     //private InputPipe inputPipe = null;
+    private OutputPipe outputPipe = null;
     
 	
     /*****************************************************/
@@ -109,6 +117,7 @@ public class P2PService extends AbstractService{
 				lastTask = new CheckCharSet(lastTask,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
 				lastTask= new CheckInternet(lastTask,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,(Void) null);
 				lastTask = new MakePipeListener(lastTask,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
+				lastTask = new CreateOutputPipe(lastTask,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
 			}
 		}
 	}
@@ -137,8 +146,57 @@ public class P2PService extends AbstractService{
              break;
          case MSG_TO_UNREGISTER_CLIENT:
              break;            
+         case MSG_TO_SEND_DATA:
+        	 try{
+        		 // send the message
+        		 boolean result = false;
+        		 while (!result){
+        			 if(outputPipe != null){
+        				 System.out.println("Sending message");
+        				 result = outputPipe.send((edu.uci.ics.luci.p2p4java.endpoint.Message) msg.obj);
+        				 if(result){
+        					 System.out.println("message sent");
+        				 }
+        				 else{
+        					 System.out.println("message not sent... retrying");
+        					 try {
+        						 Thread.sleep(1000);
+        					 } catch (InterruptedException e) {
+        					 }
+        				 }
+        			 }
+        			 else{
+        				 System.out.println("output pipe not open yet ... retrying");
+        				 try {
+        					 Thread.sleep(1000);
+        				 } catch (InterruptedException e) {
+        				 }
+        			 }
+        		 }
+        	 } catch (IOException e) {
+        		 System.out.println("failed to send message");
+        		 e.printStackTrace();
+        	 }
+        	 break;            
          default:
          }
 	}
+	
+	
+	
+
+	/**
+	 * by implementing OutputPipeListener we must define this method which
+     * is called when the output pipe is created
+     *
+     * @param event event object from which to get output pipe object
+     */
+    public void outputPipeEvent(OutputPipeEvent event) {
+
+        System.out.println("Received the output pipe resolution event");
+        // get the output pipe object
+        outputPipe = event.getOutputPipe();
+    }
+
 
 }

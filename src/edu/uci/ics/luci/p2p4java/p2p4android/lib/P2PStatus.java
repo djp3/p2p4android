@@ -5,7 +5,7 @@ public enum P2PStatus {
 	STARTING,
 	CHARSET_CHECK_BEGIN, CHARSET_FAILURE, CHARSET_SUCCESS,
 	INTERNET_CHECK_BEGIN, INTERNET_FAILURE, INTERNET_SUCCESS,
-	P2P_INITIALIZATION, P2P_INIT_NETWORK_MANAGER, P2P_INIT_NETWORK_CONFIGURATION, P2P_INIT_NETWORK, P2P_INIT_PEER_GROUP, P2P_FAILURE, P2P_SUCCESS, P2P_INIT_PIPE_SERVICE, P2P_INIT_PIPE_SERVICE_AD,
+	P2P_INITIALIZATION, P2P_INIT_NETWORK_MANAGER, P2P_INIT_NETWORK_CONFIGURATION, P2P_INIT_NETWORK, P2P_INIT_PEER_GROUP, P2P_FAILURE, P2P_SUCCESS, P2P_INIT_PIPE_SERVICE, P2P_INIT_PIPE_SERVICE_AD,P2P_INIT_OUTPUT_PIPE,
 	RUNNING;
 
 	public static String translate(P2PStatus x){
@@ -53,6 +53,9 @@ public enum P2PStatus {
 		}
 		else if(x.equals(P2PStatus.P2P_INIT_PIPE_SERVICE_AD)){
 			return "The peer to peer service is retrieving its pipe service advertisement";
+		}
+		else if(x.equals(P2PStatus.P2P_INIT_OUTPUT_PIPE)){
+			return "The peer to peer service is establishing a connection to the output";
 		}
 		else if(x.equals(P2PStatus.P2P_FAILURE)){
 			return "The peer to peer networking service failed to start";

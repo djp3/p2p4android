@@ -81,7 +81,6 @@ public class MakePipeListener extends AsyncTask<Void, String, Exception> {
 			parent.setStatus(P2PStatus.P2P_INIT_PIPE_SERVICE_AD);
 			parent.setPipeAdv(SourceServer.getPipeAdvertisement());
 			
-		
 		} catch (PeerGroupException e) {
 			return e;
 		} catch (IOException e) {
