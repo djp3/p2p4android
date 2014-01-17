@@ -1,16 +1,9 @@
 package edu.uci.ics.luci.p2p4java.p2p4android.lib;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 import android.os.AsyncTask;
-import edu.uci.ics.luci.p2p4java.exception.PeerGroupException;
-import edu.uci.ics.luci.p2p4java.peergroup.PeerGroup;
-import edu.uci.ics.luci.p2p4java.platform.NetworkConfigurator;
-import edu.uci.ics.luci.p2p4java.platform.NetworkManager;
-import edu.uci.ics.luci.p2p4java.util.luci.P2P4Java;
 
 
 public class CreateOutputPipe extends AsyncTask<Void, String, Exception> {

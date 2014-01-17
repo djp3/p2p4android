@@ -13,7 +13,7 @@ import edu.uci.ics.luci.p2p4java.pipe.OutputPipeListener;
 import edu.uci.ics.luci.p2p4java.pipe.PipeService;
 import edu.uci.ics.luci.p2p4java.platform.NetworkManager;
 import edu.uci.ics.luci.p2p4java.protocol.PipeAdvertisement;
-import edu.uci.ics.luci.p2p4java.util.luci.P2P4Java;
+import edu.uci.ics.luci.p2p4java.util.luci.P2p4java;
 
 public class P2PService extends AbstractService implements OutputPipeListener{
 	
@@ -106,7 +106,7 @@ public class P2PService extends AbstractService implements OutputPipeListener{
 
 		setStatus(P2PStatus.OFF);
 		
-		P2P4Java.setContext(this.getApplicationContext());
+		P2p4java.setContext(this.getApplicationContext());
 
 	    //Toast.makeText(this, "P2P Service Created", Toast.LENGTH_SHORT).show(); 
 		

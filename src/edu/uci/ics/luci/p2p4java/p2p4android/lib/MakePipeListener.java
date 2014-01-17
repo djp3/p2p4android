@@ -10,7 +10,7 @@ import edu.uci.ics.luci.p2p4java.exception.PeerGroupException;
 import edu.uci.ics.luci.p2p4java.peergroup.PeerGroup;
 import edu.uci.ics.luci.p2p4java.platform.NetworkConfigurator;
 import edu.uci.ics.luci.p2p4java.platform.NetworkManager;
-import edu.uci.ics.luci.p2p4java.util.luci.P2P4Java;
+import edu.uci.ics.luci.p2p4java.util.luci.P2p4java;
 
 
 public class MakePipeListener extends AsyncTask<Void, String, Exception> {
@@ -48,7 +48,7 @@ public class MakePipeListener extends AsyncTask<Void, String, Exception> {
 			localManager = parent.getManager();
 			if(localManager == null){
 			
-				File file = P2P4Java.getCacheDirectory();
+				File file = P2p4java.getCacheDirectory();
 				File file2 = new File(file, "SinkServer");
 				URI uri = file2.toURI();
 		
